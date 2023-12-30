@@ -13,16 +13,13 @@
     "@emoji-mart/data": "^1.1.2",
     "@emoji-mart/react": "^1.1.1",
     "@emotion/react": "^11.11.1",
-    "@table-library/react-table-library": "^4.1.7",
-    "@tanstack/react-table": "^8.10.7",
     "better-sqlite3": "^8.4.0",
     "date-fns": "^2.30.0",
     "emoji-mart": "^5.5.2",
     "react": "^18.2.0",
     "react-datepicker": "^4.24.0",
     "react-dom": "^18.2.0",
-    "react-resizable-panels": "^0.0.59",
-    "recharts": "^2.9.3"
+    "react-resizable-panels": "^0.0.59"
   },
   "devDependencies": {
     "@electron/rebuild": "^3.3.0",
