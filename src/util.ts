@@ -4,5 +4,5 @@ export const colors = {
   dirt: "#c9ad8f",
   grass: "#A8E79D",
   blue:"#c3dfe6",
-  yellow:"#fffced"
+  gray:"#f0f0f0"
 };

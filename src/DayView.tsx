@@ -132,7 +132,7 @@ const DayInputView = ({
           borderRadius: 0,
           padding: 4,
           borderWidth: 0,
-          background: colors.yellow,
+          background: colors.gray,
           ":focus": { outline: "none" },
         }}
         value={text}

@@ -176,7 +176,7 @@ function TextView({
             padding: 4,
             borderRadius: 0,
             borderWidth: 0,
-            background: colors.yellow,
+            background: colors.gray,
 
             ":focus": { outline: "none" },
           }}
@@ -192,6 +192,7 @@ function TextView({
             borderWidth: 0,
             "&:enabled:hover": { cursor: "pointer", background: colors.blue },
             userSelect: "none",
+            background:colors.gray
           }}
           disabled={text.length === 0}
           onClick={submitEntry}
@@ -284,7 +285,7 @@ function EmojiView({ log }: { log: EmojiLog }) {
       <div
         css={{
           padding: 4,
-          background: colors.yellow,
+          background: colors.gray,
 
           borderWidth: 0,
           borderStyle: "solid",
