@@ -18,8 +18,7 @@
     "emoji-mart": "^5.5.2",
     "react": "^18.2.0",
     "react-datepicker": "^4.24.0",
-    "react-dom": "^18.2.0",
-    "react-resizable-panels": "^0.0.59"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@electron/rebuild": "^3.3.0",
