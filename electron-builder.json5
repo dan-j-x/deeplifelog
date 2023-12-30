@@ -33,4 +33,5 @@
     target: ["AppImage"],
     artifactName: "${productName}-Linux-${version}.${ext}",
   },
+  npmRebuild: 'false',
 }

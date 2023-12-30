@@ -222,13 +222,12 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
-    width: 1000,
-    height: 720,
+    width: 500,
+    height: 700,
   });
 
-  win.webContents.openDevTools();
-
   if (VITE_DEV_SERVER_URL) {
+    win.webContents.openDevTools();
     win.loadURL(VITE_DEV_SERVER_URL);
   } else {
     win.loadFile(path.join(process.env.DIST, "index.html"));
@@ -248,8 +247,8 @@ function createWindow() {
 function openOptionsWindow() {
   if (!win) return;
   const optionsWin = new BrowserWindow({
-    width: 1000,
-    height: 500,
+    width: 600,
+    height: 600,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
@@ -257,11 +256,14 @@ function openOptionsWindow() {
     modal: true,
   });
   optionsWin.removeMenu();
-  optionsWin.webContents.openDevTools();
 
-  // breaks in prod
-  const url = "http://localhost:5174/index-options.html";
-  optionsWin.loadURL(url);
+  if (VITE_DEV_SERVER_URL) {
+    optionsWin.webContents.openDevTools();
+    const url = "http://localhost:5174/index-options.html";
+    optionsWin.loadURL(url);
+  } else {
+    optionsWin.loadFile(path.join(process.env.DIST, "index-options.html"));
+  }
 }
 
 // Quit when all windows are closed, except on macOS. There, it's common
