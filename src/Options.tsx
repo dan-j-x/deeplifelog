@@ -11,6 +11,7 @@ import type {
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import type EmojiMart from "emoji-mart";
+import { colors } from "./util";
 
 import "./index.css";
 
@@ -24,7 +25,7 @@ interface Emoji {
   shortcodes: string;
 }
 
-type OptionsView = "mood" | "activity";
+type OptionsView = "Mood" | "Activity";
 
 function EmojiOptions({ log }: { log: EmojiLog }) {
   const [kinds, setKinds] = useState<MoodKind[] | ActivityKind[]>([]);
@@ -90,11 +91,30 @@ function EmojiOptions({ log }: { log: EmojiLog }) {
   return (
     <div
       css={{
-        margin: 4,
+        margin: 0,
+        background: colors.gray,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        flexGrow: 1,
       }}
     >
-      <div css={{ background: "rgba(0,0,0,0.0)" }}>
-        <div css={{ padding: 4 }}>
+      <div css={{ width: "100%" }}>
+        <div css={{ margin: 4, fontSize: 20 }}>Currently active</div>
+        <div
+          css={{
+            padding: 4,
+            boxSizing: "border-box",
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 0,
+            borderStyle: "solid",
+            borderWidth: 0,
+            borderRadius: 4,
+            width: "100%",
+            background: "rgba(0,0,0,0.1)",
+          }}
+        >
           {kinds.map((kind, idx) => {
             const codePoints = kind.code
               .split("-")
@@ -108,16 +128,18 @@ function EmojiOptions({ log }: { log: EmojiLog }) {
                   setSelectedKind(kind);
                 }}
                 css={{
-                  fontSize: 40,
+                  fontSize: 32,
                   cursor: "pointer",
                   userSelect: "none",
                   background:
                     kind.code === selectedKind?.code
-                      ? "rgba(0,0,0,0.5)"
+                      ? "rgba(0,0,0,0.2)"
                       : kind.hidden
                       ? "rgba(255,0,0,0.2)"
                       : "none",
-                      padding:0
+                  padding: 2,
+                  borderRadius: "50%",
+                  "&: hover": {},
                 }}
                 role="img"
                 aria-label="emoji"
@@ -127,42 +149,82 @@ function EmojiOptions({ log }: { log: EmojiLog }) {
             );
           })}
         </div>
-        {selectedKind && (
-          <div
-            css={{
-              background: "rgba(0,0,0,0.0)",
-              padding: 4,
-              display: "flex",
-            }}
-          >
-            <div css={{ margin: 4 }}>{selectedKind.label}</div>
 
-            <input
-              type="text"
-              placeholder="relabel"
-              value={relabelText}
-              onChange={(event) => setRelabelText(event.target.value)}
-            />
-            <button onClick={relabel}>apply</button>
-            <button onClick={toggleVisibility}>
-              {selectedKind.hidden ? "unhide" : "hide"}
-            </button>
-            <button
-              onClick={() => {
-                if (
-                  confirm(
-                    "Deleting this will also delete every entry of this kind"
-                  )
-                )
-                  deleteKind();
+        {selectedKind && (
+          <div css={{ width: "100%", marginTop: 0 }}>
+            <div css={{ margin: 4, fontSize: 20 }}>
+              Selected label:{" "}
+              <span css={{ fontWeight: "bold" }}>{selectedKind.label}</span>
+            </div>
+            <div
+              css={{
+                background: "rgba(0,0,0,0.1)",
+                padding: 4,
+                borderRadius: 4,
+                display: "flex",
+                gap: 4,
               }}
             >
-              bin
-            </button>
+              <div>
+                <input
+                  type="text"
+                  placeholder="relabel"
+                  value={relabelText}
+                  onChange={(event) => setRelabelText(event.target.value)}
+                  css={{
+                    borderWidth: 0,
+                    height: 20,
+                    borderRadius: "4px 0px 0px 4px",
+                    padding: 4,
+                  }}
+                />
+                <button
+                  css={{ borderWidth: 0, height: "100%" }}
+                  onClick={relabel}
+                  disabled={relabelText.length === 0}
+                >
+                  Apply
+                </button>
+              </div>
+              <button css={{ borderWidth: 0 }} onClick={toggleVisibility}>
+                {selectedKind.hidden ? "Unhide" : "Hide"}
+              </button>
+              <button
+                css={{ borderWidth: 0 }}
+                onClick={() => {
+                  if (
+                    confirm(
+                      "Deleting this will also delete every entry of this kind"
+                    )
+                  )
+                    deleteKind();
+                }}
+              >
+                Bin
+              </button>
+            </div>
           </div>
         )}
+        <div
+          css={{
+            fontSize: 20,
+            margin: 4,
+          }}
+        >
+          Add emoji
+        </div>
       </div>
-      <div css={{ marginTop: 4 }}>
+      <div
+        css={{
+          width: "100%",
+          background: "rgba(0,0,0,0.1)",
+          display: "flex",
+          justifyContent: "center",
+          padding: 4,
+          boxSizing: "border-box",
+          borderRadius:4
+        }}
+      >
         <Picker data={data} onEmojiSelect={submitKind} />
       </div>
     </div>
@@ -171,26 +233,56 @@ function EmojiOptions({ log }: { log: EmojiLog }) {
 
 export default function Options() {
   const [activeOptionsView, setActiveOptionsView] =
-    useState<OptionsView>("mood");
+    useState<OptionsView>("Mood");
+
+  const OptionsButton = ({
+    children,
+    onClick,
+    view,
+  }: {
+    children: React.ReactNode;
+    onClick?: () => void;
+    view: OptionsView;
+  }) => {
+    return (
+      <button
+        css={{
+          borderWidth: 0,
+          padding: 0,
+          background: "none",
+          color: activeOptionsView === view ? "blue" : "inherit",
+          fontWeight: "bold",
+          textAlign: "left",
+          textDecoration: "underline",
+          "&:hover": {
+            color: activeOptionsView === view ? "blue" : "gray",
+            cursor: "pointer",
+          },
+          fontSize: 20,
+        }}
+        onClick={() => setActiveOptionsView(view)}
+      >
+        {children}
+      </button>
+    );
+  };
 
   return (
-    <div css={{ display: "flex", height: "100vh" }}>
+    <div css={{ display: "flex", minHeight: "100vh" }}>
       <div
         css={{
-          background: "rgba(0,0,0,0.2)",
+          background: "rgba(0,0,0,0.0)",
           display: "flex",
           flexDirection: "column",
-          gap: 8,
+          gap: 4,
           padding: 4,
         }}
       >
-        <button onClick={() => setActiveOptionsView("mood")}>Mood</button>
-        <button onClick={() => setActiveOptionsView("activity")}>
-          Activity
-        </button>
+        <OptionsButton view="Mood">Mood</OptionsButton>
+        <OptionsButton view="Activity">Activity</OptionsButton>
       </div>
-      {activeOptionsView === "mood" && <EmojiOptions log="Mood" />}
-      {activeOptionsView === "activity" && <EmojiOptions log="Activity" />}
+      {activeOptionsView === "Mood" && <EmojiOptions log="Mood" />}
+      {activeOptionsView === "Activity" && <EmojiOptions log="Activity" />}
     </div>
   );
 }

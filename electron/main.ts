@@ -222,8 +222,8 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
-    width: 500,
-    height: 700,
+    width: 600,
+    height: 800,
   });
 
   if (VITE_DEV_SERVER_URL) {
@@ -248,7 +248,7 @@ function openOptionsWindow() {
   if (!win) return;
   const optionsWin = new BrowserWindow({
     width: 600,
-    height: 600,
+    height: 700,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },

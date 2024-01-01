@@ -21,7 +21,6 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@electron/rebuild": "^3.3.0",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@types/better-sqlite3": "^7.6.6",
     "@types/react": "^18.2.21",
