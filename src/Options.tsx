@@ -92,7 +92,6 @@ function EmojiOptions({ log }: { log: EmojiLog }) {
     <div
       css={{
         margin: 0,
-        background: colors.gray,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -100,115 +99,137 @@ function EmojiOptions({ log }: { log: EmojiLog }) {
       }}
     >
       <div css={{ width: "100%" }}>
-        <div css={{ margin: 4, fontSize: 20 }}>Currently active</div>
-        <div
-          css={{
-            padding: 4,
-            boxSizing: "border-box",
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 0,
-            borderStyle: "solid",
-            borderWidth: 0,
-            borderRadius: 4,
-            width: "100%",
-            background: "rgba(0,0,0,0.1)",
-          }}
-        >
-          {kinds.map((kind, idx) => {
-            const codePoints = kind.code
-              .split("-")
-              .map((hex) => parseInt(hex, 16));
-            const emoji = String.fromCodePoint(...codePoints);
-
-            return (
-              <span
-                key={idx}
-                onClick={() => {
-                  setSelectedKind(kind);
-                }}
-                css={{
-                  fontSize: 32,
-                  cursor: "pointer",
-                  userSelect: "none",
-                  background:
-                    kind.code === selectedKind?.code
-                      ? "rgba(0,0,0,0.2)"
-                      : kind.hidden
-                      ? "rgba(255,0,0,0.2)"
-                      : "none",
-                  padding: 2,
-                  borderRadius: "50%",
-                  "&: hover": {},
-                }}
-                role="img"
-                aria-label="emoji"
-              >
-                {emoji}
-              </span>
-            );
-          })}
+        <div css={{ margin: 4, fontSize: 20, textDecoration: "underline" }}>
+          Currently available
         </div>
+        <div css={{ background: colors.gray }}>
+          <div
+            css={{
+              padding: 4,
+              boxSizing: "border-box",
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 0,
+              borderStyle: "solid",
+              borderWidth: 0,
+              borderRadius: 0,
+              width: "100%",
+              background: "rgba(0,0,0,0.0)",
+            }}
+          >
+            {kinds.map((kind, idx) => {
+              const codePoints = kind.code
+                .split("-")
+                .map((hex) => parseInt(hex, 16));
+              const emoji = String.fromCodePoint(...codePoints);
 
-        {selectedKind && (
-          <div css={{ width: "100%", marginTop: 0 }}>
-            <div css={{ margin: 4, fontSize: 20 }}>
-              Selected label:{" "}
-              <span css={{ fontWeight: "bold" }}>{selectedKind.label}</span>
-            </div>
-            <div
-              css={{
-                background: "rgba(0,0,0,0.1)",
-                padding: 4,
-                borderRadius: 4,
-                display: "flex",
-                gap: 4,
-              }}
-            >
-              <div>
-                <input
-                  type="text"
-                  placeholder="relabel"
-                  value={relabelText}
-                  onChange={(event) => setRelabelText(event.target.value)}
+              return (
+                <span
+                  key={idx}
+                  onClick={() => {
+                    setSelectedKind(kind);
+                  }}
+                  css={{
+                    fontSize: 32,
+                    cursor: "pointer",
+                    userSelect: "none",
+                    background:
+                      kind.code === selectedKind?.code
+                        ? "rgba(0,0,0,0.2)"
+                        : kind.hidden
+                        ? "rgba(255,0,0,0.2)"
+                        : "none",
+                    padding: 2,
+                    borderRadius: "50%",
+                    "&: hover": {},
+                  }}
+                  role="img"
+                  aria-label="emoji"
+                >
+                  {emoji}
+                </span>
+              );
+            })}
+          </div>
+          {selectedKind && (
+            <div css={{ width: "100%", marginTop: 0 }}>
+              <div css={{ margin: 4, fontSize: 16 }}>
+                Selected label:{" "}
+                <span css={{ fontWeight: "bold" }}>{selectedKind.label}</span>
+              </div>
+              <div
+                css={{
+                  background: "rgba(0,0,0,0.0)",
+                  padding: 4,
+                  borderRadius: 0,
+                  display: "flex",
+                  gap: 4,
+                }}
+              >
+                <div>
+                  <input
+                    type="text"
+                    placeholder="relabel"
+                    value={relabelText}
+                    onChange={(event) => setRelabelText(event.target.value)}
+                    css={{
+                      borderWidth: 0,
+                      height: 20,
+                      borderRadius: 0,
+                      padding: 4,
+                    }}
+                  />
+                  <button
+                    css={{
+                      borderWidth: 0,
+                      height: "100%",
+                      boxSizing: "border-box",
+                      background: colors.blue,
+                      ":enabled": { cursor: "pointer" },
+                    }}
+                    onClick={relabel}
+                    disabled={relabelText.length === 0}
+                  >
+                    Apply
+                  </button>
+                </div>
+                <button
                   css={{
                     borderWidth: 0,
-                    height: 20,
-                    borderRadius: "4px 0px 0px 4px",
-                    padding: 4,
+                    background: colors.blue,
+                    cursor: "pointer",
                   }}
-                />
-                <button
-                  css={{ borderWidth: 0, height: "100%" }}
-                  onClick={relabel}
-                  disabled={relabelText.length === 0}
+                  onClick={toggleVisibility}
                 >
-                  Apply
+                  {selectedKind.hidden ? "Unhide" : "Hide"}
+                </button>
+                <button
+                  css={{
+                    borderWidth: 0,
+                    background: colors.blue,
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    if (
+                      confirm(
+                        "Deleting this will also delete every entry of this kind"
+                      )
+                    )
+                      deleteKind();
+                  }}
+                >
+                  Bin
                 </button>
               </div>
-              <button css={{ borderWidth: 0 }} onClick={toggleVisibility}>
-                {selectedKind.hidden ? "Unhide" : "Hide"}
-              </button>
-              <button
-                css={{ borderWidth: 0 }}
-                onClick={() => {
-                  if (
-                    confirm(
-                      "Deleting this will also delete every entry of this kind"
-                    )
-                  )
-                    deleteKind();
-                }}
-              >
-                Bin
-              </button>
             </div>
-          </div>
-        )}
+          )}
+        </div>
+
         <div
           css={{
             fontSize: 20,
             margin: 4,
+            textDecoration: "underline",
           }}
         >
           Add emoji
@@ -217,12 +238,12 @@ function EmojiOptions({ log }: { log: EmojiLog }) {
       <div
         css={{
           width: "100%",
-          background: "rgba(0,0,0,0.1)",
+          background: colors.gray,
           display: "flex",
           justifyContent: "center",
           padding: 4,
           boxSizing: "border-box",
-          borderRadius:4
+          borderRadius: 0,
         }}
       >
         <Picker data={data} onEmojiSelect={submitKind} />
@@ -259,6 +280,7 @@ export default function Options() {
             cursor: "pointer",
           },
           fontSize: 20,
+          outline: "none",
         }}
         onClick={() => setActiveOptionsView(view)}
       >
