@@ -14,7 +14,6 @@ import {
 } from "../types/electron";
 import { format } from "date-fns";
 import DayView from "./DayView";
-import Search from "./Search";
 import Pagination from "./Pagination";
 import { colors } from "./util";
 
@@ -286,7 +285,6 @@ function EmojiView({ log }: { log: EmojiLog }) {
         css={{
           padding: 4,
           background: colors.gray,
-
           borderWidth: 0,
           borderStyle: "solid",
           display: "flex",
