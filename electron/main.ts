@@ -233,15 +233,24 @@ function createWindow() {
     win.loadFile(path.join(process.env.DIST, "index.html"));
   }
 
-  const menu = Menu.buildFromTemplate([
-    {
-      label: "Options",
-      click: () => openOptionsWindow(),
-    },
-  ]);
-
-  // I think this breaks on os x
-  win.setMenu(menu);
+  if (process.platform === "darwin") {
+    const menu = Menu.buildFromTemplate([
+      { label: "defacto" },
+      {
+        label: "Edit",
+        submenu: [{ label: "Options", click: () => openOptionsWindow() }],
+      },
+    ]);
+    Menu.setApplicationMenu(menu);
+  } else {
+    const menu = Menu.buildFromTemplate([
+      {
+        label: "Options",
+        click: () => openOptionsWindow(),
+      },
+    ]);
+    win.setMenu(menu);
+  }
 }
 
 function openOptionsWindow() {
@@ -253,7 +262,6 @@ function openOptionsWindow() {
       preload: path.join(__dirname, "preload.js"),
     },
     parent: win,
-    modal: true,
   });
   optionsWin.removeMenu();
 
