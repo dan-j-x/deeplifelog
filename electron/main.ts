@@ -237,8 +237,8 @@ function createWindow() {
     const menu = Menu.buildFromTemplate([
       { label: "defacto" },
       {
-        label: "Edit",
-        submenu: [{ label: "Options", click: () => openOptionsWindow() }],
+        label: "Options",
+        submenu: [{ label: "View Options", click: () => openOptionsWindow() }],
       },
     ]);
     Menu.setApplicationMenu(menu);
