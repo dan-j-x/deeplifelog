@@ -28,7 +28,7 @@ export default defineConfig({
         name: "options",
         config: "vite.options.config.ts",
       },
-    ]), 
+    ]),
   ],
 });
 
@@ -53,30 +53,32 @@ function bindingSqlite3(
       const resolvedRoot = normalizePath(
         config.root ? path.resolve(config.root) : process.cwd()
       );
-      const output = path.posix.resolve(resolvedRoot, options.output);
+      const output = path.resolve(resolvedRoot, options.output);
       const better_sqlite3 = require.resolve("better-sqlite3");
-      const better_sqlite3_root = path.posix.join(
+      const better_sqlite3_root = path.join(
         better_sqlite3.slice(0, better_sqlite3.lastIndexOf("node_modules")),
         "node_modules/better-sqlite3"
       );
-      const better_sqlite3_node = path.posix.join(
+      const better_sqlite3_node = path.join(
         better_sqlite3_root,
         "build/Release",
         options.better_sqlite3_node
       );
-      const better_sqlite3_copy = path.posix.join(
+      const better_sqlite3_copy = path.join(
         output,
         options.better_sqlite3_node
       );
+
       if (!fs.existsSync(better_sqlite3_node)) {
-        throw new Error(`${TAG} Can not found "${better_sqlite3_node}".`);
+        throw new Error(`${TAG} Can not find "${better_sqlite3_node}".`);
       }
       if (!fs.existsSync(output)) {
         fs.mkdirSync(output, { recursive: true });
       }
       fs.copyFileSync(better_sqlite3_node, better_sqlite3_copy);
       /** `dist-native/better_sqlite3.node` */
-      const BETTER_SQLITE3_BINDING = better_sqlite3_copy.replace(
+      const better_sqlite3_copy_normalized = normalizePath(better_sqlite3_copy);
+      const BETTER_SQLITE3_BINDING = better_sqlite3_copy_normalized.replace(
         resolvedRoot + "/",
         ""
       );
