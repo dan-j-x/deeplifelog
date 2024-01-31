@@ -3,9 +3,9 @@
  */
 {
   $schema: "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
-  appId: "com.logmore.app",
+  appId: "com.basedlog.app",
   asar: true,
-  productName: "logmore",
+  productName: "BasedLog",
   directories: {
     output: "release/${version}",
   },
@@ -33,5 +33,5 @@
     target: ["AppImage"],
     artifactName: "${productName}-Linux-${version}.${ext}",
   },
-  npmRebuild: 'false',
+  npmRebuild: "false",
 }
