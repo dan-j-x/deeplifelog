@@ -3,9 +3,9 @@
  */
 {
   $schema: "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
-  appId: "com.basedlog.app",
+  appId: "com.deeplifelog.app",
   asar: true,
-  productName: "BasedLog",
+  productName: "Deep Life Log",
   directories: {
     output: "release/${version}",
   },
